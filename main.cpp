@@ -1,9 +1,5 @@
 #include "mainwindow.h"
 #include <QApplication>
-
-//#include <winreg.h>
-#include <QDebug>
-
 #include <QSettings>
 #include <QDir>
 
@@ -15,18 +11,10 @@ void appAutoRun(bool bAutoRun)
     //for current user.Do not need the admin power
     //HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run
     QSettings  reg("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run",QSettings::NativeFormat);
-
-    if (bAutoRun)
-    {
-         QString strAppPath=QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
-        //strAppPath.replace(QChar('/'),QChar('\\'),Qt::CaseInsensitive);
-        reg.setValue("wirtepad",strAppPath);
-    }
-    else
-    {
-        reg.setValue("wirtepad","");
-    }
-
+    QString strAppPath=bAutoRun ? QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) :
+    QString();
+    //strAppPath.replace(QChar('/'),QChar('\\'),Qt::CaseInsensitive);
+    reg.setValue("wirtepad",strAppPath);
 }
 
 int main(int argc, char *argv[])
